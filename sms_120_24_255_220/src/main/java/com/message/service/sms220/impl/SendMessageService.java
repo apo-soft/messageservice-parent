@@ -8,6 +8,12 @@ import com.message.service.sms220.SmsConfig;
 import com.message.service.sms220.SmsService;
 import com.message.service.sms220.impl.util.FormatBeanUtil;
 
+/**
+ * 短信服务接口
+ * 
+ * @author Yu Jinshui
+ * @createTime 2016年4月8日 下午10:05:27
+ */
 public class SendMessageService implements SmsService {
 
 	private SmsConfig smsconfig;
@@ -40,9 +46,7 @@ public class SendMessageService implements SmsService {
 	private String createParams(SendMsg msg, SmsConfig config) {
 		StringBuilder build = new StringBuilder();
 		build.append("act=" + smsconfig.sendmsg());
-		build.append("&unitid=" + config.unitid());
-		build.append("&username=" + config.username());
-		build.append("&passwd=" + config.passwd());
+		setUser(build, config);
 		try {
 			build.append("&msg=" + URLEncoder.encode(msg.getMsg(), smsconfig.charset()));
 		} catch (UnsupportedEncodingException e) {
@@ -54,8 +58,82 @@ public class SendMessageService implements SmsService {
 		return build.toString();
 	}
 
+	/**
+	 * 
+	 * @see com.message.service.sms220.SmsService#smsrecord(com.message.service.sms220.SendMsg)
+	 */
 	@Override
-	public String smsrecord(SendMsg smsmsg) {
+	public String smsrecord() {
+		// TODO
+		return null;
+	}
+
+	/**
+	 * 
+	 * @see com.message.service.sms220.SmsService#getBalance()
+	 */
+	@Override
+	public String getBalance() {
+		String params = setBalanceParam(smsconfig);
+		return HttpRequest.sendGet(smsconfig.url(), params, smsconfig.charset());
+
+	}
+
+	/**
+	 * 短信余额部分赋值
+	 *
+	 * @param config
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月8日 下午10:04:48
+	 */
+	private String setBalanceParam(SmsConfig config) {
+		StringBuilder build = new StringBuilder();
+		build.append("act=" + config.getbalance());
+		setUser(build, config);
+		return build.toString();
+	}
+
+	/**
+	 * 账号配置部分
+	 *
+	 * @param build
+	 * @param config
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月8日 下午10:03:00
+	 */
+	private void setUser(StringBuilder build, SmsConfig config) {
+		build.append("&unitid=" + config.unitid());
+		build.append("&username=" + config.username());
+		build.append("&passwd=" + config.passwd());
+	}
+
+	@Override
+	public String updatePassword(String password) {
+		String params = setUpPass(password);
+		return HttpRequest.sendGet(smsconfig.url(), params, smsconfig.charset());
+	}
+
+	/**
+	 * 
+	 * 修改密码赋值
+	 * 
+	 * @param password
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年4月8日 下午10:34:25
+	 */
+	private String setUpPass(String password) {
+		StringBuilder build = new StringBuilder();
+		build.append("act=" + smsconfig.uppasswd());
+		setUser(build, smsconfig);
+		build.append("&&newpasswd=" + password);
+		return build.toString();
+	}
+
+	@Override
+	public String getSmsStatue() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

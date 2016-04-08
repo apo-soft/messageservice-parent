@@ -11,10 +11,11 @@ import com.message.service.sms220.impl.SendNotifaction;
 import com.message.service.sms220.impl.SmsPropertiesconfig;
 
 public class Test {
+	SmsConfig config = new SmsPropertiesconfig("E:/environments/properties/sms/sms.properties", "utf-8");
+	SmsService smsSer = new SendMessageService(config);
+
 	public void sendMessage() {
 		SendSmsRequest send = setSend();
-		SmsConfig config = new SmsPropertiesconfig("E:/environments/properties/sms/sms.properties", "utf-8");
-		SmsService smsSer = new SendMessageService(config);
 		SendNotifaction notifaction = smsSer.sendMessage(send);
 		System.out.println("发送描述：" + notifaction.getDescribe());
 		System.out.println(
@@ -35,9 +36,15 @@ public class Test {
 		return request;
 	}
 
+	private void getBalance() {
+		String result = smsSer.getBalance();
+		System.out.println("余额为：" + result);
+	}
+
 	public static void main(String[] args) {
 		Test test = new Test();
-		test.sendMessage();
+//		test.sendMessage();
+		test.getBalance();
 
 	}
 
