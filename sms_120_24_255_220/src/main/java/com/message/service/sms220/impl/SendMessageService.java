@@ -133,7 +133,22 @@ public class SendMessageService implements SmsService {
 
 	@Override
 	public String getSmsStatue() {
-		// TODO Auto-generated method stub
-		return null;
+		String params = setStatue(smsconfig);
+		return HttpRequest.sendGet(smsconfig.url(), params, smsconfig.charset());
+	}
+
+	/**
+	 * 获取回执赋值部分
+	 *
+	 * @param smsconfig2
+	 * @return
+	 * @Author Yu Jinshui
+	 * @createTime 2016年5月11日 下午7:36:29
+	 */
+	private String setStatue(SmsConfig config) {
+		StringBuilder build = new StringBuilder();
+		build.append("act=" + config.getstatue());
+		setUser(build, config);
+		return build.toString();
 	}
 }

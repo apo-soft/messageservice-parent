@@ -41,10 +41,16 @@ public class Test {
 		System.out.println("余额为：" + result);
 	}
 
+	private void getStatue() {
+		String result = smsSer.getSmsStatue();
+		System.out.println("回执结果：" + result);
+	}
+
 	public static void main(String[] args) {
 		Test test = new Test();
-//		test.sendMessage();
-		test.getBalance();
+		// test.sendMessage();
+//		test.getBalance();
+		test.getStatue();
 
 	}
 
