@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>sms_120_24_255_220</module>
+  	<module>sms_253</module>
   </modules>
   <dependencies>
   <dependency>
